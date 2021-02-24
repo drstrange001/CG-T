@@ -1,0 +1,35 @@
+#include<bits/stdc++.h>
+bool func(pair<int,string>&a,pair<int,string>&b){
+    return a.first<b.first;
+}
+int better(vector<pair<int,string>>&curr,int N){
+    int first=0,second=0;
+    for(int i=0;i<N;i++){
+        first+=(abs(curr[(N-1)/2].first-curr[i].first));
+        second+=(abs(curr[N/2].first-curr[i].first));
+    }
+    return (first<second)?(N-1)/2:N/2;
+}
+string Strings(int N,vector<string>S){
+    string ans="";
+    vector<pair<int,string>>curr(N);
+    for(int i=0;i<N;i++){
+        int val=0;
+        for(int c=0;c<S[i].size();c++){
+            val+=(S[i][c]-'a')+1;
+        }
+        curr[i].first=val;
+        curr[i].second=S[i];
+    }
+    sort(curr.begin(),curr.end(),func);
+    int ind=N/2;
+    if(N%2==0){
+        ind=better(curr,N);
+    }
+    if(abs(curr[ind].first-curr[0].first)<=abs(curr[ind].first-curr[N-1].first)){
+        ans=curr[N-1].second;
+    }else{
+        ans=curr[0].second;
+    }
+    return ans;
+}
